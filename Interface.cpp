@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
@@ -13,7 +12,7 @@ using namespace std;
 #define ASCII_SPACE      ' '
 #define ASCII_ESC        27 
 
-// ��������ʵ�ʳ���
+// ��������ʵ�ʳ���
 int	GetPassword( char *password , int nMaxLen )
 {
     strncpy( password, getpass(""), nMaxLen );
@@ -47,19 +46,19 @@ char* ChangeFileSuffix( char *pOutFile, const char *pSrcFile, const char *pSuffi
 bool	GetUserChoice( void )
 {
 	while (1){
-		cout << "Yes or No(Y/N) : " ;
+		cout << "예 혹은 아니오(Y/N) : " ;
 		char ch = getchar();
 		switch ( ch ){
 		case 'Y':
 		case 'y':
-			cout << "Yes" << endl;
+			cout << "예" << endl;
 			return true;
 		case 'N':
 		case 'n':
-			cout << "No" << endl;
+			cout << "아니오" << endl;
 			return false;
 		default:
-			cout << "Please input again" << endl;
+			cout << "다시 입력해주세요." << endl;
 		}
 	}
 }
@@ -70,12 +69,12 @@ bool	GetNewPassword( char *password )
 	char _acComfirm[PWD_LEN];
 
 	while(true){
-		cout << "Please input new password: ";
+		cout << "새 암호를 입력해주세요: ";
 		_nLen1 = ::GetPassword( password );
 		if (_nLen1==0){
 			break;
 		}
-		cout << "Input new password again: ";
+		cout << "다시 입력해주세요: ";
 		_nLen2 = ::GetPassword( _acComfirm );
 		if (_nLen2==0){
 			break;
@@ -83,11 +82,11 @@ bool	GetNewPassword( char *password )
 		if ( (_nLen1==_nLen2) && (strcmp( password , _acComfirm) == 0) ){
 			break;
 		}
-		cout << "-- INFO: Password invaild, Please input again --" << endl;
+		cout << "-- 안내: 암호가 유효하지 않습니다, 다시 입력해주세요 --" << endl;
 	}
 
 	if ( _nLen1 == 0 || _nLen2 == 0 ){
-		cout << "-- INFO: User cancel --" << endl;
+		cout << "-- 안내: 유저가 취소하였습니다. --" << endl;
 		return false;
 	}else{
 		return true;
