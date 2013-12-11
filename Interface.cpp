@@ -69,7 +69,7 @@ bool	GetNewPassword( char *password )
 	char _acComfirm[PWD_LEN];
 
 	while(true){
-		cout << "새 암호를 입력해주세요: ";
+		cout << "새 비밀번호를 입력해주세요: ";
 		_nLen1 = ::GetPassword( password );
 		if (_nLen1==0){
 			break;
@@ -82,7 +82,7 @@ bool	GetNewPassword( char *password )
 		if ( (_nLen1==_nLen2) && (strcmp( password , _acComfirm) == 0) ){
 			break;
 		}
-		cout << "-- 안내: 암호가 유효하지 않습니다, 다시 입력해주세요 --" << endl;
+		cout << "-- 안내: 비밀번호가 유효하지 않습니다, 다시 입력해주세요 --" << endl;
 	}
 
 	if ( _nLen1 == 0 || _nLen2 == 0 ){
