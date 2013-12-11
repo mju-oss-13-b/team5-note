@@ -75,10 +75,10 @@ int CNoteManager::Create( const char *pFileName )
 	char	_acPassword[PWD_LEN+1];
 	int		retVal = 0;
 
-	cout << "-- INFO: Creatting new notebook... --" << endl;
+	cout << "-- ì •ë³´: ìƒˆ ë…¸íŠ¸ë¥¼ ìƒì„±í•©ë‹ˆë‹¤... --" << endl;
 	
 	if ( pFileName == NULL || *pFileName == 0 ){
-		cout << "-- ERR: File invaild --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. --" << endl;
 		return ERRNO_PARAM_INVAILD;
 	}
 
@@ -93,8 +93,8 @@ int CNoteManager::Create( const char *pFileName )
 			time_t _currTime = time(NULL);
 			//ctime_s(_acTextBuff, 50, &_currTime);
 		    strncpy( _acTextBuff, ctime(&_currTime), 50 );	
-            _acTextBuff[ strlen(_acTextBuff)-1 ] = '\0'; // È¥³ýctimes()×îºóÉú³ÉµÄ '\n'
-			strncat( _acTextBuff, "\xd\xa´´½¨ÈÕ¼Ç±¾", 50 );
+            _acTextBuff[ strlen(_acTextBuff)-1 ] = '\0'; // È¥ï¿½ï¿½ctimes()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ '\n'
+			strncat( _acTextBuff, "\xd\xaï¿½ï¿½ï¿½ï¿½ï¿½Õ¼Ç±ï¿½", 50 );
 			int _nLen = (int)strlen(_acTextBuff);
 
 			_noteFile.SaveBody( _acTextBuff, _nLen, _acPassword );
@@ -108,7 +108,7 @@ int CNoteManager::Create( const char *pFileName )
 		}
 		_noteFile.Close();
 	} else {
-		cout << "-- INFO: Creatting notebook fail! --" << endl;
+		cout << "-- ì •ë³´: ìƒˆ ë…¸íŠ¸ë¥¼ ìƒì„±í•˜ëŠ”ë° ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 		retVal = ERRNO_FILE_CREATE_FAIL;
 	}
 
@@ -118,10 +118,10 @@ int CNoteManager::Create( const char *pFileName )
 
 int CNoteManager::Read( CNoteFile &noteFile, const char *pPwd )
 {
-	cout << "-- INFO: Opening read file --" << endl;
+	cout << "-- ì •ë³´: íŒŒì¼ ì½ê¸°ë¥¼ ì‹œìž‘í•©ë‹ˆë‹¤ --" << endl;
 
 	if ( !noteFile.GetReadEnable() ){
-		cout << "-- INFO: This function has been disabled! --" << endl;
+		cout << "-- ì •ë³´: ì´ ê¸°ëŠ¥ì€ ì‚¬ìš©ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤! --" << endl;
 		return ERRNO_FUNC_DISABLE;
 	}
 
@@ -130,10 +130,10 @@ int CNoteManager::Read( CNoteFile &noteFile, const char *pPwd )
 
 int CNoteManager::Edit( CNoteFile &noteFile, const char *pPwd )
 {
-	cout << "-- INFO: Opening edit file --" << endl;
+	cout << "-- ì •ë³´: íŒŒì¼ íŽ¸ì§‘ì„ ì‹œìž‘í•©ë‹ˆë‹¤ --" << endl;
 
 	if ( !noteFile.GetEditEnable() ){
-		cout << "-- INFO: This function has been disabled! --" << endl;
+		cout << "-- ì •ë³´: ì´ ê¸°ëŠ¥ì€ ì‚¬ìš©ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤! --" << endl;
 		return ERRNO_FUNC_DISABLE;
 	}
 
@@ -142,7 +142,7 @@ int CNoteManager::Edit( CNoteFile &noteFile, const char *pPwd )
 
 int CNoteManager::EndEdit( CNoteFile &noteFile )
 {
-	cout << "-- INFO: Closing edit file --" << endl;
+	cout << "-- ì •ë³´: íŒŒì¼ íŽ¸ì§‘ì„ ì¢…ë£Œí•©ë‹ˆë‹¤ --" << endl;
 	return _Close( noteFile );
 }
 
@@ -162,14 +162,14 @@ int CNoteManager::_Open( CNoteFile &noteFile, const char *pPwd, bool isRemeberSt
 
 			ChangeFileSuffix( _acTextFileName, noteFile.GetFileName(), "txt" );
 			
-			// _pTextBuff ÒÑÊÇÃ÷ÎÄ£¬¿ÉÖ±½ÓÏÔÊ¾
+			// _pTextBuff ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ê¾
 			FILE *fp_text = NULL;
 			fp_text = fopen( _acTextFileName, "wb" );
 			if ( fp_text ){
-				fwrite( _pTextBuff, noteFile.GetDataLen(), 1, fp_text );	// ½«Ã÷ÎÄÐ´µ½ _pTextFileName ÎÄ¼þÈ¥
+				fwrite( _pTextBuff, noteFile.GetDataLen(), 1, fp_text );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ _pTextFileName ï¿½Ä¼ï¿½È¥
 
 				if ( isRemeberState ){
-					noteFile.SetStatus( STATUS_READ );	// ±£´æÈÕÖ¾×´Ì¬
+					noteFile.SetStatus( STATUS_READ );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾×´Ì¬
 					noteFile.StorePassword( pPwd );
 					noteFile.SaveHead();
 				}
@@ -177,18 +177,18 @@ int CNoteManager::_Open( CNoteFile &noteFile, const char *pPwd, bool isRemeberSt
 				fclose( fp_text );
 				fp_text = NULL;
 			}else {
-				cout << "-- ERR: Create file [" << _acTextFileName << "] fail! --" << endl; 
+				cout << "--ì—ëŸ¬: íŒŒì¼ [" << _acTextFileName << "] ì˜ ìƒì„±ì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl; 
 				retVal = ERRNO_FILE_CREATE_FAIL;
 			}
 			memset( _pTextBuff, 0, noteFile.GetDataLen() );
 			delete [] _pTextBuff;
 			_pTextBuff = NULL;
 		}else{
-			cout << "-- ERR: Alloc memory fail! --" << endl;
+			cout << "-- ì—ëŸ¬: ë©”ëª¨ë¦¬ Allocì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 			retVal = ERRNO_ALLOC_MEMORY_FAIL;
 		}
 	}else {
-		cout << "-- ERR: File has been opened! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ ì—´ë ¤ìžˆìŠµë‹ˆë‹¤! --" << endl;
 		retVal = ERRNO_FILE_STATUS_ERR;
 	}
 	
@@ -214,9 +214,9 @@ int CNoteManager::_Close(  CNoteFile &noteFile, const char *pTextFile )
 		}
 
 		FILE *fp_text ;
-		fp_text = fopen( _pTextFile, "rb" );	// ´ò¿ªpTextNameÎÄ¼þ£¬½«Êý¾ÝÌáÈ¡³öÀ´¡£
+		fp_text = fopen( _pTextFile, "rb" );	// ï¿½ï¿½ï¿½ï¿½pTextNameï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-		if ( fp_text ){	// ´ò¿ªÎÄ¼þ³É¹¦
+		if ( fp_text ){	// ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½É¹ï¿½
 			
 			fseek( fp_text, 0, 2 );
 			int text_len = ftell( fp_text );
@@ -228,27 +228,27 @@ int CNoteManager::_Close(  CNoteFile &noteFile, const char *pTextFile )
 				fread ( pBuff, text_len, 1, fp_text );
 				
 				char _acPassword[PWD_LEN];
-				noteFile.LoadPassword( _acPassword );	// µ¼³öÔÝ´æµÄÃÜÂë
+				noteFile.LoadPassword( _acPassword );	// ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				
-				noteFile.SaveBody( pBuff, text_len, _acPassword );	// ±£´æÃ÷ÎÄÊý¾Ý
+				noteFile.SaveBody( pBuff, text_len, _acPassword );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-				noteFile.SetStatus( STATUS_CLOSE );	// ±£´æÈÕÖ¾ÎÄ¼þÍ·
+				noteFile.SetStatus( STATUS_CLOSE );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½Í·
 				noteFile.SetDataLen( text_len );
 				noteFile.SaveHead();
 
 				delete [] pBuff;
 				pBuff = NULL;
 			}else {
-				cout << "-- ERR: Alloc memory fail! --" << endl;
+				cout << "-- ì—ëŸ¬: ë©”ëª¨ë¦¬ Allocì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 				retVal = ERRNO_ALLOC_MEMORY_FAIL;
 			}
 			fclose( fp_text );
 		}else {
-			cout << "-- ERR: Open [" << "] fail! --" << endl; 
+			cout << "-- ì—ëŸ¬: [" << "] ì—¬ëŠ” ê²ƒì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl; 
 			retVal = ERRNO_FILE_OPEN_FAIL;
 		}
 	}else {
-		cout << "-- ERR: file has been closed! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ ë‹«í˜”ìŠµë‹ˆë‹¤! --" << endl;
 		retVal = ERRNO_FILE_STATUS_ERR;
 	}
 
@@ -260,10 +260,10 @@ int CNoteManager::Append( CNoteFile &noteFile, const char *pPwd )
 	FILE	*_pFile = NULL;
 	int		retVal = 0;
 
-	cout << "-- ERR: Openning append file! --" << endl;
+	cout << "-- ì—ëŸ¬: íŒŒì¼ ìˆ˜ì •ì„ ì‹œìž‘í•©ë‹ˆë‹¤! --" << endl;
 
 	if ( !noteFile.GetAppendEnable() ){
-		cout << "-- INFO: This function has been disabled! --" << endl;
+		cout << "-- ì •ë³´: ì´ ê¸°ëŠ¥ì€ ì‚¬ìš©ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤! --" << endl;
 		return ERRNO_FUNC_DISABLE;
 	}
 
@@ -280,24 +280,24 @@ int CNoteManager::Append( CNoteFile &noteFile, const char *pPwd )
 			time_t _currTime = time(NULL);
 			//ctime_s(_acTextBuff, 50, &_currTime);
 		    strncpy( _acTextBuff, ctime(&_currTime), 50 );
-            _acTextBuff[ strlen(_acTextBuff)-1 ] = '\0'; // È¥³ýctimes()×îºóÉú³ÉµÄ '\n'
+            _acTextBuff[ strlen(_acTextBuff)-1 ] = '\0'; // È¥ï¿½ï¿½ctimes()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ '\n'
 			strncat( _acTextBuff, "\xd\xa", 50 );
 			int _nLen = (int)strlen(_acTextBuff);
 
-			fwrite( _acTextBuff, _nLen, 1, fp_text );	// ÌíÐ´ÈÕÆÚ
+			fwrite( _acTextBuff, _nLen, 1, fp_text );	// ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
 
-			noteFile.SetStatus( STATUS_APPEND );	// ±£´æÈÕÖ¾×´Ì¬
+			noteFile.SetStatus( STATUS_APPEND );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾×´Ì¬
 			noteFile.StorePassword( pPwd );
 			noteFile.SaveHead();
 
 			fclose( fp_text );
 			fp_text = NULL;
 		}else {
-			cout << "-- ERR: Creating file [" << _acTextFileName << "] fail! --" << endl; 
+			cout << "-- ì—ëŸ¬: íŒŒì¼ [" << _acTextFileName << "] ì˜ ìƒì„±ì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl; 
 			retVal = ERRNO_FILE_CREATE_FAIL;
 		}
 	}else {
-		cout << "-- ERR: File has been opened! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ ì—´ë ¤ìžˆìŠµë‹ˆë‹¤! --" << endl;
 		retVal = ERRNO_FILE_STATUS_ERR;
 	}
 
@@ -308,7 +308,7 @@ int CNoteManager::EndAppend( CNoteFile &noteFile )
 {
 	int		retVal = 0;
 
-	cout << "-- INFO: Closing append file --" << endl;
+	cout << "-- ì •ë³´: íŒŒì¼ ìˆ˜ì •ì„ ì¢…ë£Œí•©ë‹ˆë‹¤ --" << endl;
 
 	if ( noteFile.GetStatus() == STATUS_APPEND ){
 		
@@ -320,20 +320,20 @@ int CNoteManager::EndAppend( CNoteFile &noteFile )
 		if ( fp_text ){
 
 			fseek( fp_text, 0, 2 );
-			int nTextLen = ftell( fp_text );	// »ñÈ¡txtÎÄ¼þµÄ³¤¶È
+			int nTextLen = ftell( fp_text );	// ï¿½ï¿½È¡txtï¿½Ä¼ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
 			rewind( fp_text );
-			int nTotalLen = nTextLen + noteFile.GetDataLen() + 4;	// ×Ü³¤¶È = ÎÄ±¾³¤¶È + ÃÜÎÄ³¤¶È + 4BµÄ¡°\xd\xa\xd\xa¡±
+			int nTotalLen = nTextLen + noteFile.GetDataLen() + 4;	// ï¿½Ü³ï¿½ï¿½ï¿½ = ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ + 4Bï¿½Ä¡ï¿½\xd\xa\xd\xaï¿½ï¿½
 
 			char *pBuff = new char [nTotalLen];
 			if ( pBuff ){
 
-				fread ( pBuff, nTextLen, 1, fp_text );	// ½«ÎÄ±¾ÎÄ¼þÖÐÊý¾Ý¶Áµ½pBuffÖÐÀ´
-				strncpy( pBuff+nTextLen, "\xd\xa\xd\xa", 5 );	// ×·¼Ó¡°\xd\xa\xd\xa¡±
+				fread ( pBuff, nTextLen, 1, fp_text );	// ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½pBuffï¿½ï¿½ï¿½ï¿½
+				strncpy( pBuff+nTextLen, "\xd\xa\xd\xa", 5 );	// ×·ï¿½Ó¡ï¿½\xd\xa\xd\xaï¿½ï¿½
 				char _acPassword[PWD_LEN];
-				noteFile.LoadPassword( _acPassword );	// »ñµÃÃÜÂë
-				noteFile.LoadBody( pBuff+nTextLen+4, noteFile.GetDataLen(), _acPassword) ;	// ½«ÃÜÎÄ½âÃÜµ½ºóÃæ
-				noteFile.SaveBody( pBuff, nTotalLen, _acPassword) ;	// ½«pBuffÊý¾ÝÓÃÃÜÂë½øÐÐ¼ÓÃÜ²¢´æÈëÈÕÖ¾ÎÄ¼þ
-				// ¸ü¸ÄnoteFileµÄÊý¾Ý³¤¶ÈÓë×´Ì¬
+				noteFile.LoadPassword( _acPassword );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				noteFile.LoadBody( pBuff+nTextLen+4, noteFile.GetDataLen(), _acPassword) ;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½Üµï¿½ï¿½ï¿½ï¿½ï¿½
+				noteFile.SaveBody( pBuff, nTotalLen, _acPassword) ;	// ï¿½ï¿½pBuffï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
+				// ï¿½ï¿½ï¿½ï¿½noteFileï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 				noteFile.SetDataLen( nTotalLen );
 				noteFile.SetStatus( STATUS_CLOSE );
 				noteFile.SaveHead();
@@ -341,17 +341,17 @@ int CNoteManager::EndAppend( CNoteFile &noteFile )
 				delete [] pBuff;
 				pBuff = NULL;
 			}else {
-				cout << "-- ERR: Alloc memory fail! --" << endl;
+				cout << "-- ì—ëŸ¬: ë©”ëª¨ë¦¬ Alloc ì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 				retVal = ERRNO_ALLOC_MEMORY_FAIL;
 			}
 			fclose( fp_text );
 			fp_text = NULL;
 		}else {
-			cout << "-- ERR: Open file [" << _acTextFileName << "] fail! --" << endl; 
+			cout << "-- ì—ëŸ¬: íŒŒì¼ [" << _acTextFileName << "] ì—¬ëŠ” ê²ƒì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl; 
 			retVal = ERRNO_FILE_CREATE_FAIL;
 		}
 	}else {
-		cout << "-- ERR: File isn't open in append status! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ ìˆ˜ì • ëª¨ë“œë¡œ ì—´ë ¤ ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤! --" << endl;
 		retVal = ERRNO_FILE_STATUS_ERR;
 	}
 
@@ -367,12 +367,12 @@ int CNoteManager::EndRead( CNoteFile &noteFile )
 int CNoteManager::ChangePassword( EPWDType eType, CNoteFile &noteFile )
 {
 	if ( noteFile.GetStatus() == STATUS_CLOSE ){
-		cout << "-- INFO: Please input password --" << endl;
+		cout << "-- ì •ë³´: ì•”í˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš” --" << endl;
 		
 		char acOldPassword[PWD_LEN];
 		char acNewPassword[PWD_LEN];
 		
-		cout << "Please input: ";
+		cout << "ìž…ë ¥: ";
 		::GetPassword( acOldPassword );
 		if ( noteFile.GetPasswordVaild( eType, acOldPassword ) ){
 			if ( ::GetNewPassword( acNewPassword ) ){
@@ -382,28 +382,28 @@ int CNoteManager::ChangePassword( EPWDType eType, CNoteFile &noteFile )
 					if (pBuff){
 						noteFile.LoadBody( pBuff, len, acOldPassword );
 						noteFile.SaveBody( pBuff, len, acNewPassword );
-						noteFile.SetPasswordVaild( PWD_NOTE, acNewPassword );	// ¸üÐÂÃÜÂëÑéÖ¤
+						noteFile.SetPasswordVaild( PWD_NOTE, acNewPassword );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤
 						noteFile.SaveHead();
 						delete [] pBuff;
 						pBuff = NULL;
 					}else {
-						cout << "-- ERR: Alloc memory fail! --" << endl;
+						cout << "-- ì—ëŸ¬: ë©”ëª¨ë¦¬ Alloc ì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 						return ERRNO_ALLOC_MEMORY_FAIL;
 					}
 				}else{
 					noteFile.SetPasswordVaild( eType, acNewPassword );
 				}
 			}else{
-				cout << "-- INFO: User cancel --" << endl;  
+				cout << "-- ì •ë³´: ìœ ì €ê°€ ì·¨ì†Œí•˜ì˜€ìŠµë‹ˆë‹¤ --" << endl;  
 				return ERRNO_USER_CANCEL;
 			}
 		}else{
-			cout << "-- INFO: Password invaild! --" << endl;
+			cout << "-- ì •ë³´: íŒ¨ìŠ¤ì›Œë“œê°€ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤! --" << endl;
 			usleep(2000);
 			return ERRNO_PWD_INVAILD;
 		}
 	}else{
-		cout << "-- ERR: NoteBook isn't close, pleasse close first! --" << endl;
+		cout << "-- ì—ëŸ¬: ë…¸íŠ¸ê°€ ë‹«í˜€ ìžˆì§€ ì•ŠìŠµë‹ˆë‹¤, ìš°ì„  ë‹«ì•„ì£¼ì„¸ìš”! --" << endl;
 		return ERRNO_FILE_STATUS_ERR;
 	}
 	return 0;
