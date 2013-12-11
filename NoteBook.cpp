@@ -367,7 +367,7 @@ int CNoteManager::EndRead( CNoteFile &noteFile )
 int CNoteManager::ChangePassword( EPWDType eType, CNoteFile &noteFile )
 {
 	if ( noteFile.GetStatus() == STATUS_CLOSE ){
-		cout << "-- 정보: 암호를 입력해주세요 --" << endl;
+		cout << "-- 정보: 비밀번호를 입력해주세요 --" << endl;
 		
 		char acOldPassword[PWD_LEN];
 		char acNewPassword[PWD_LEN];
@@ -398,7 +398,7 @@ int CNoteManager::ChangePassword( EPWDType eType, CNoteFile &noteFile )
 				return ERRNO_USER_CANCEL;
 			}
 		}else{
-			cout << "-- 정보: 패스워드가 유효하지 않습니다! --" << endl;
+			cout << "-- 정보: 비밀번호가 유효하지 않습니다! --" << endl;
 			usleep(2000);
 			return ERRNO_PWD_INVAILD;
 		}
