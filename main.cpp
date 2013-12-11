@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <unistd.h>
+#include <windows.h>
 #include "Encrypt.h"
 #include "NoteBook.h"
 #include "VirtualArray.h"
@@ -86,6 +87,7 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 
 	// NoteFile�ļ�һ���Ǵ򿪳ɹ��˵�
 	if ( noteFile.IsLock() ){
+		Sleep(10000)
 		cout << "-- 정보: 파일이 잠겨 있습니다, 우선 잠금을 풀어주세요! --" << endl;
 		while (true){
 			cout << "Input Password: ";
