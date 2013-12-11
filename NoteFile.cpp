@@ -1,4 +1,3 @@
-
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -12,7 +11,7 @@ CNoteFile::CNoteFile( const char *pNoteFile )
 	: m_pFile(NULL)
 {
 	if ( sizeof( m_head ) > START_POS ){
-		cout << "-- SERIOUS ERR: Data may be cover! --" << endl;
+		cout << "-- ì‹¬ê°í•œ ì—ëŸ¬: ë°ì´í„°ê°€ ë®ì–´ì”Œì›Œì§„ ê²ƒ ê°™ìŠµë‹ˆë‹¤! --" << endl;
 	}
 	memset(&m_head, 0, sizeof(m_head));
 	SetFileName( pNoteFile );
@@ -35,11 +34,11 @@ bool CNoteFile::Create()
 	bool retVal = false;
 
 	if ( m_acNoteFile == NULL || *m_acNoteFile == 0 ){
-		cout << "-- ERR: Filename invaild! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ë¦„ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤! --" << endl;
 		return false;
 	}
 	
-	Close();	// ÈçÔ­À´µÄÎÄ¼þÖ¸ÕëÎ´¹Ø±Õ£¬Ôò¹Ø±ÕËü
+	Close();	// ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ö¸ï¿½ï¿½Î´ï¿½Ø±Õ£ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½
 
 	m_pFile = fopen( m_acNoteFile, "wb+" );
 
@@ -56,11 +55,11 @@ bool CNoteFile::Open()
 	bool retVal = false;
 
 	if ( m_acNoteFile == NULL || *m_acNoteFile == 0 ){
-		cout << "-- ERR: Filename invaild! --" << endl;
+		cout << "-- ì—ëŸ¬: íŒŒì¼ì´ë¦„ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤! --" << endl;
 		return false;
 	}
 	
-	Close();	// ÈçÔ­À´µÄÎÄ¼þÖ¸ÕëÎ´¹Ø±Õ£¬Ôò¹Ø±ÕËü
+	Close();	// ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ö¸ï¿½ï¿½Î´ï¿½Ø±Õ£ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½
 
 	m_pFile = fopen( m_acNoteFile, "rb+" );
 
@@ -71,10 +70,10 @@ bool CNoteFile::Open()
 		if ( IsVaild() ){
 			return true;
 		}else{
-			cout << "-- ERR: Notefile format invaild! --" << endl;
+			cout << "-- ì—ëŸ¬: ë…¸íŠ¸íŒŒì¼ì˜ í˜•ì‹ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤! --" << endl;
 		}
 	}else {
-		cout << "-- ERR: Open notebook fail! --" << endl;
+		cout << "-- ì—ëŸ¬: ë…¸íŠ¸ë¥¼ ì—¬ëŠ”ë° ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤! --" << endl;
 	}
 	return false;
 }
@@ -147,7 +146,7 @@ void CNoteFile::SetTryTimes(int times)
 	m_head.tryTimes = times;
 }
 
-// ¸ù¾ÝlockÓëÉÏ´ÎËø¶¨Ê±¼ä×ÛºÏÅÐ¶¨
+// ï¿½ï¿½ï¿½ï¿½lockï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ûºï¿½ï¿½Ð¶ï¿½
 bool CNoteFile::IsLock()
 {
 	time_t currTime = time(NULL);
@@ -162,7 +161,7 @@ void CNoteFile::Lock( bool isForever )
 	if (isForever){
 		m_head.lastLock = -1;
 	}else {
-		m_head.lastLock = time(NULL) + (60*60*24);	// Ëø24Ð¡Ê±
+		m_head.lastLock = time(NULL) + (60*60*24);	// ï¿½ï¿½24Ð¡Ê±
 	}
 }
 void CNoteFile::Unlock(void)
@@ -231,13 +230,13 @@ void CNoteFile::StorePassword( const char * pwd )
 
 void CNoteFile::LoadPassword( char * pwd )
 {
-	CEncrypt::Right( m_head.pwd, PWD_LEN, &m_head.key, 1 );	// ½âÃÜ
+	CEncrypt::Right( m_head.pwd, PWD_LEN, &m_head.key, 1 );	// ï¿½ï¿½ï¿½ï¿½
 	strncpy( pwd, m_head.pwd, PWD_LEN );
 	memset( m_head.pwd, 0, PWD_LEN );
 	m_head.key = 0;
 }
 
-// ¶ÁÈ¡ÎÄ¼þÊý¾Ý£¬²¢Ê¹ÓÃpPwdÃÜÂë½øÐÐ½âÃÜ
+// ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½pPwdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½
 int	CNoteFile::LoadBody( char *pBuff , int nLen, const char *pPwd )
 {
 	if ( m_pFile!=NULL && pBuff!=NULL && nLen>0 && pPwd!=NULL ){
@@ -251,7 +250,7 @@ int	CNoteFile::LoadBody( char *pBuff , int nLen, const char *pPwd )
 	return 0;
 }
 
-// ¼ÓÃÜÎÄ¼þ£¬²¢±£´æµ½ÎÄ¼þ
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æµ½ï¿½Ä¼ï¿½
 int	CNoteFile::SaveBody( char *pBuff , int nLen, const char *pPwd )
 {
 	if ( m_pFile!=NULL && pBuff!=NULL && nLen>0 && pPwd!=NULL ){
