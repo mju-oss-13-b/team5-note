@@ -89,8 +89,8 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 		
 		cout << "-- 정보: 파일이 잠겨 있습니다, 우선 잠금을 풀어주세요! --" << endl;
 		while (true){
-			Sleep(10000)
 			cout << "Input Password: ";
+			Sleep(1000);
 			if ( ::GetPassword( pPwd ) == 0 ){
 				cout << "-- 정보: 유저가 유효한 비밀번호를 취소하였습니다 --" << endl;
 				return false;
