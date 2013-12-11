@@ -1,4 +1,4 @@
-// NoteBook.cpp : �������̨Ӧ�ó������ڵ㡣
+// NoteBook.cpp : ��������̨Ӧ�ó��������ڵ㡣
 //
 #include <iostream>
 #include <string>
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-// �����ļ�
+// �����ļ�
 int DestoryFile( const char * pFileName )
 {
 	FILE *fp = NULL;
@@ -19,10 +19,10 @@ int DestoryFile( const char * pFileName )
 	if ( fp ){
 
 		fseek( fp, 0, 2 );
-		int len = ftell( fp );	// ��ȡ�ļ���С
+		int len = ftell( fp );	// ��ȡ�ļ���С
 		rewind( fp );
 
-		// ���0
+		// ����0
 		while ( len-- ){
 			fputc( 0, fp );
 		}
@@ -30,18 +30,18 @@ int DestoryFile( const char * pFileName )
 		fclose( fp );
 		fp = NULL;
 
-		// ɾ���ļ�
+		// ɾ���ļ�
 		unlink( pFileName );
-		cout << "-- INFO: File has been destory! --" << endl;
+		cout << "-- 정보: 파일이 파괴되었습니다! --" << endl;
 
 	} else {
-		cout << "-- ERR: File doesn't exist! --" << endl;
+		cout << "-- 에러: 파일이 존재하지 않습니다! --" << endl;
 	}
 	
 	return 0;
 }
 
-// �����ϴ�δ��ɵĹ���
+// �����ϴ�δ���ɵĹ���
 int CloseTextFile( void )
 {
 	g_NoteMgr.LoadLog();
@@ -66,7 +66,7 @@ int CloseTextFile( void )
 		::ChangeFileSuffix( acTextFile, g_NoteMgr.GetLastFile(), "txt" );
 		::DestoryFile( acTextFile );
 	}else {
-		cout << "-- ERR: Open file fail --" << endl;
+		cout << "-- 에러: 파일을 여는데 실패하였습니다! --" << endl;
 	}
 	return 0;
 }
@@ -76,27 +76,27 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 	bool retVal = false;
 
 	while ( !noteFile.Open() ){
-		cout << "-- ERR: File not exist or format err! --" << endl;
-		cout << "-- INFO: Will you want to create a new file? --" << endl;
+		cout << "-- 에러: 파일이 존재하지 않거나 올바른 형식이 아닙니다! --" << endl;
+		cout << "-- 정보: 새 파일 생성을 원하십니까? --" << endl;
 		if ( !::GetUserChoice() ){
 			return false;
 		}
 		g_NoteMgr.Create( noteFile.GetFileName() );
 	}
 
-	// NoteFile�ļ�һ���Ǵ򿪳ɹ��˵�
+	// NoteFile�ļ�һ���Ǵ򿪳ɹ��˵�
 	if ( noteFile.IsLock() ){
-		cout << "-- INFO: File has been lock, you should unlock it first! --" << endl;
+		cout << "-- 정보: 파일이 잠겨 있습니다, 우선 잠금을 풀어주세요! --" << endl;
 		while (true){
 			cout << "Input Password: ";
 			if ( ::GetPassword( pPwd ) == 0 ){
-				cout << "-- INFO: User cancel password vaild --" << endl;
+				cout << "-- 정보: 유저가 유효한 비밀번호를 취소하였습니다 --" << endl;
 				return false;
 			}
 			if ( noteFile.GetPasswordVaild( PWD_UNLOCK, pPwd ) ){
 				noteFile.Unlock();
 				noteFile.SaveHead();
-				cout << "-- INFO: Lock success--" << endl;
+				cout << "-- 정보: 파일 잠금이 성공하였습니다 --" << endl;
 				break;
 			}
 			usleep(2000);
@@ -106,14 +106,14 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 	int	tries = 0;
 	int _nLen = 0;
 	
-	cout << "-- INFO: Checking password. Please input password. --" << endl;
-	// ������֤
+	cout << "-- 정보: 비밀번호를 확인하시고, 다시 입력해주세요 -" << endl;
+	// ������֤
 	while(true){
 
 		if ( tries >= noteFile.GetTryTimes() ){
 			break;
 		}
-		cout << "Please Input[" << noteFile.GetTryTimes() - tries <<"] : ";
+		cout << "다시 입력해주세요[" << noteFile.GetTryTimes() - tries <<"] : ";
 		tries ++ ;
 
 		_nLen = ::GetPassword( pPwd );
@@ -124,21 +124,21 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 			break;	
 		}
 	}
-	if ( tries < noteFile.GetTryTimes() ){	// ���Դ���δ����
+	if ( tries < noteFile.GetTryTimes() ){	// ���Դ���δ����
 
-		if ( _nLen != 0 ){	// �û���������ȷ������
+		if ( _nLen != 0 ){	// �û���������ȷ������
 			
-			cout << "-- INFO: Congratulation! Pass! --" << endl;
+			cout << "-- 정보: 축하합니다! 진입하셨습니다! --" << endl;
 			retVal = true;
 
 		}else {
-			cout << "-- INFO: User cancel password vaild --" << endl;
+			cout << "-- 정보: 유저가 유효한 비밀번호를 취소하였습니다 --" << endl;
 		}
 	} else {
-		// ���ļ�
+		// ���ļ�
 		noteFile.Lock();
 		noteFile.SaveHead();
-		cout << "-- INFO: Try time out, file has been lock! --" << endl;
+		cout << "-- 정보: 제한횟수를 초과하셨습니다, 파일이 잠깁니다! --" << endl;
 	}
 
 	return retVal;
@@ -146,7 +146,7 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 
 void Wait()
 {
-	cout << "-- INFO: File has been open, Input \"close\" to close file. -- " << endl;
+	cout << "-- 정보: 파일이 열려있습니다, \"close\" 를 입력하시면 파일이 닫힙니다. -- " << endl;
 	string str;
 	do{
 		cout << "Please Input: " ;
@@ -156,39 +156,39 @@ void Wait()
 
 void ChangePassword( CNoteFile &noteFile )
 {
-	// �������룺�����롢Ȩ���޸����롢��������
+	// �������룺�������롢Ȩ���޸����롢��������
 	while (true){
 		char choice ;
 		do{
-			cout << "-- INFO: Please select your chioce --" << endl;
-			cout << "<1> Notebook Password" << endl;
-			cout << "<2> Function Password" << endl;
-			cout << "<3> Unlock Password" << endl;
+			cout << "-- 정보: 기능을 선택해주세요 --" << endl;
+			cout << "<1> 노트 기본 비밀번호" << endl;
+			cout << "<2> 기능 비밀번호" << endl;
+			cout << "<3> 잠금해제 비밀번호" << endl;
 			cout << "<Q> Return" << endl;
-			cout << "Your chioce: ";
+			cout << "선택: ";
 			cin >> choice;
 		}while ( choice<'1' && choice>'3' && choice!='q' && choice!='Q' );
 		cout << endl;
 
 		switch( choice ){
-			case '1' :	// ��־��������
-				cout << "-- INFO: Changing notebook password --" << endl;
+			case '1' :	// ��־��������
+				cout << "-- 정보: 노트 기본 비밀번호를 변경합니다 --" << endl;
 				if ( g_NoteMgr.ChangePassword( PWD_NOTE, noteFile ) == 0 ){
-					cout << "-- INFO: You should restart --" << endl;
+					cout << "-- 정보: 재실행해주세요 --" << endl;
 					cin.get();
 					exit(0);
 				}
 				break;
-			case '2' :	// Ȩ����������
-				cout << "-- INFO: Changing function password --" << endl;
+			case '2' :	// Ȩ����������
+				cout << "-- 정보: 기능 비밀번호를 변경합니다 --" << endl;
 				if ( g_NoteMgr.ChangePassword( PWD_PRIV, noteFile ) == 0 ){
-					cout << "-- INFO: Success! --" << endl;
+					cout << "-- 정보: 성공하였습니다! --" << endl;
 				}
 				break;
-			case '3' :	// ��������
-				cout << "-- INFO: Changing unlock password --" << endl;
+			case '3' :	// ��������
+				cout << "-- 정보: 잠금해제 비밀번호를 변경합니다--" << endl;
 				if ( g_NoteMgr.ChangePassword( PWD_UNLOCK, noteFile ) == 0 ){
-					cout << "-- INFO: Success! --" << endl;
+					cout << "-- 정보: 성공하였습니다! --" << endl;
 				}
 				break;
 			case 'q' :
@@ -200,46 +200,46 @@ void ChangePassword( CNoteFile &noteFile )
 
 void SetPrivilege( CNoteFile &noteFile )
 {
-	// ������֤
+	// ������֤
 	char acPassword[PWD_LEN];
-	cout << "-- INFO: Setting function, please input function password --" << endl;
+	cout << "-- 정보: 설정 기능, 기능 비밀번호를 입력해주세요 --" << endl;
 
 	while ( true ){
-		cout << "Please Input: ";	
+		cout << "다시 입력해주세요: ";	
 		if ( ::GetPassword(acPassword) == 0 ){
-			cout << "-- INFO: User cancel password vaild --" << endl;
+			cout << "-- 정보: 유저가 유효한 비밀번호를 취소하였습니다 --" << endl;
 			return;
 		}
 		cout << endl;	
 		if ( noteFile.GetPasswordVaild( PWD_PRIV, acPassword ) ){
-			cout << "-- INFO: Congratulations! Pass! --" << endl;
+			cout << "-- 정보: 축하합니다! 진입하였습니다! --" << endl;
 			break;
 		}
 		usleep(2000);
 	}
 
-	// ����Ȩ�ޣ�׷�ӡ��Ķ����༭��������ر�
+	// ����Ȩ�ޣ�׷�ӡ��Ķ����༭���������ر�
 	while (true){
 		char choice ;
 		do{
-			cout << "-- INFO: Please Select your chioce --" << endl;
-			cout << "<1> Append [" << (noteFile.GetAppendEnable()?"On":"Off") << "]" << endl;
-			cout << "<2> Read   [" << (noteFile.GetReadEnable()?"On":"Off") << "]" << endl;
-			cout << "<3> Edit   [" << (noteFile.GetEditEnable()?"On":"off") << "]" << endl;
-			cout << "<Q> return" << endl;
-			cout << "Your chioce: ";
+			cout << "-- 정보: 기능을 선택해주세요 --" << endl;
+			cout << "<1> 쓰기 [" << (noteFile.GetAppendEnable()?"On":"Off") << "]" << endl;
+			cout << "<2> 읽기 [" << (noteFile.GetReadEnable()?"On":"Off") << "]" << endl;
+			cout << "<3> 수정 [" << (noteFile.GetEditEnable()?"On":"off") << "]" << endl;
+			cout << "<Q> 되돌아가기" << endl;
+			cout << "선택: ";
 			cin >> choice;
 		}while ( choice<'1' && choice>'3' && choice!='q' && choice!='Q' );
 		cout << endl;
 
 		switch( choice ){
-			case '1' :	// ׷��
+			case '1' :	// ׷��
 				noteFile.SetAppendEnable( !noteFile.GetAppendEnable() );
 				break;
-			case '2' :	// �Ķ�
+			case '2' :	// �Ķ�
 				noteFile.SetReadEnable( !noteFile.GetReadEnable() );
 				break;
-			case '3' :	// �༭
+			case '3' :	// �༭
 				noteFile.SetEditEnable( !noteFile.GetEditEnable() );
 				break;
 			case 'q' :
@@ -252,32 +252,32 @@ void SetPrivilege( CNoteFile &noteFile )
 
 void SetTryTime( CNoteFile &noteFile )
 {
-	cout << "-- INFO: Please set try times. --" << endl;
+	cout << "-- 정보: 제한 횟수를 설정해주세요. --" << endl;
 	int times = 0;
-	cout << "Your chioce: ";
+	cout << "선택: ";
 	cin >> times;
 	if ( times > 0 ){
 		noteFile.SetTryTimes( times );
 		noteFile.SaveHead();
-		cout << "-- INFO: Set success! current value is [" << times << "] --" << endl;
+		cout << "-- 정보: 설정에 성공하였습니다! 현재 값은 [" << times << "] 입니다 --" << endl;
 	}else{
-		cout << "-- INFO: Fail --" << endl;
+		cout << "-- 정보: 실패하였습니다 --" << endl;
 	}
 }
 
-// ����
+// ����
 void Setting(  CNoteFile &noteFile )
 {
 	while (true){
 		char choice ;
 		do{
-			cout << "-- INFO: Please select your chioce --" << endl;
-			cout << "<1> Set Password" << endl;
-			cout << "<2> Set Function" << endl;
-			cout << "<3> Lock NoteBook" << endl;
-			cout << "<4> Set Try times" << endl;
-			cout << "<Q> return" << endl;
-			cout << "Your chioce: ";
+			cout << "-- 정보: 기능을 선택해주세요 --" << endl;
+			cout << "<1> 비밀번호 설정" << endl;
+			cout << "<2> 기능 설정" << endl;
+			cout << "<3> 노트 잠금" << endl;
+			cout << "<4> 제한 횟수 설정" << endl;
+			cout << "<Q> 되돌아가기" << endl;
+			cout << "선택: ";
 			cin >> choice;
 		}while ( choice<'1' && choice>'4' && choice!='q' && choice!='Q' );
 		cout << endl;
@@ -289,12 +289,12 @@ void Setting(  CNoteFile &noteFile )
 			case '2' :
 				SetPrivilege( noteFile );
 				break;
-			case '3' :	// ����
-				cout << "-- INFO: Do you really want to lock notebook? --" << endl;
+			case '3' :	// ����
+				cout << "-- 정보: 정말 노트를 잠그시겠습니까? --" << endl;
 				if ( ::GetUserChoice() ){
 					noteFile.Lock( true );
 					noteFile.SaveHead();
-					cout << "-- INFO: NoteFile has been locked! --" << endl;
+					cout << "-- 정보: 노트가 잠겼습니다! --" << endl;
 				}
 				break;
 			case '4' :
@@ -316,13 +316,13 @@ void NoteBook( const char *pNoteFile )
 		while (true){
 			char choice ;
 			do{
-				cout << "-- INFO: Please select your chioce --" << endl;
-				cout << "<1> Append" << endl;
-				cout << "<2> Read" << endl;
-				cout << "<3> Edit" << endl;
-				cout << "<4> Setting" << endl;
-				cout << "<Q> Exit" << endl;
-				cout << "Please Input: ";
+				cout << "-- 정보: 기능을 선택해주세요 --" << endl;
+				cout << "<1> 쓰기" << endl;
+				cout << "<2> 읽기" << endl;
+				cout << "<3> 수정" << endl;
+				cout << "<4> 설정" << endl;
+				cout << "<Q> 나가기" << endl;
+				cout << "선택: ";
 				cin >> choice;
 			}while ( choice<'1' && choice>'4' && choice!='q' && choice!='Q' );
 			cout << endl;
@@ -373,19 +373,19 @@ void NoteBook( const char *pNoteFile )
 			g_NoteMgr.SaveLog( STATUS_CLOSE, NULL );
 		}
 	}else {
-		cout << "-- INFO: Cann't open notefile. --" << endl;
+		cout << "-- 정보: 노트를 열 수 없습니다. --" << endl;
 		cin.get();
 	}
 }
 void Wellcom()
 {
-	cout << "+-------------------------------------------+" << endl;
-	cout << "|   Wellcome back! I am your loyal friend   |" << endl;
-	cout << "+-------------------------------------------+" << endl;
-	cout << "Press any to continue..." << endl;
+	cout << "+---------------------------------------------------+" << endl;
+	cout << "|들어와서 환영합니다! 전 당신의 비밀스런 친구입니다 |" << endl;
+	cout << "+---------------------------------------------------+" << endl;
+	cout << "아무 키나 누르시면 계속됩니다..." << endl;
 	char ch = getchar();
 	if ( ch == '?' ){
-		cout << "I am <<NoteBook V1.0>>, Please use." << endl;
+		cout << "저는 <<NoteBook V1.0>> 입니다, 애용해주세요." << endl;
 	}
 	cout << endl << endl;
 }
@@ -400,8 +400,8 @@ int main(int argc, char* argv[])
 	Wellcom();
 
 	if ( argc < 2 ){
-		cout << "-- INFO: Please input notefile name --" << endl;
-		cout << "FileName : ";
+		cout << "-- 정보: 파일이름을 입력해주세요 --" << endl;
+		cout << "파일이름 : ";
 		cin >> acNoteFile;
 		pNoteFile = acNoteFile;
 	}else {
