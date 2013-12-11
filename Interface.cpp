@@ -42,7 +42,7 @@ char* ChangeFileSuffix( char *pOutFile, const char *pSrcFile, const char *pSuffi
 
 	return NULL;
 }
-
+ 
 bool	GetUserChoice( void )
 {
 	while (1){
