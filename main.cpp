@@ -87,7 +87,7 @@ bool OpenNoteFile( CNoteFile &noteFile, char *pPwd )
 	// NoteFile�ļ�һ���Ǵ򿪳ɹ��˵�
 	if ( noteFile.IsLock() ){
 		
-		cout << "-- 정보: 파일이 잠겨 있습니다, 우선 잠금을 풀어주세요! --" << endl;
+		cout << "-- 정보: 파일이 잠겨 있습니다, 우선 잠금을 풀어주세요!(실패시 10초의 대기시간을 가집니다) --" << endl;
 		while (true){
 			cout << "Input Password: ";
 			sleep(10);
